@@ -17,10 +17,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
       
@@ -30,17 +30,11 @@ jobs:
       - name: Install playwright dependencies    
         run: npx playwright install    
       
-      - name: Fix vulnerabilities
-        run: npm audit fix --force
-
       - name: Start App
         run: npm server &
 
       - name: Start UI
         run : npm start &
-
-      - name: Wait for services to be ready
-        run: npx wait-on http://localhost:3000 http://localhost:8080  
 
       - name: Run tests
         run: npm test
