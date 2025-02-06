@@ -29,11 +29,14 @@ jobs:
       
       - name: Install playwright dependencies    
         run: npx playwright install    
+      
+      - name: Start App
+        run: npm server &
 
+      - name: Start UI
+        run : npm start &
+        
       - name: Run tests
         run: npm test
 
-      - name: Start App
-        run: npm server &
-      - name: Start UI
-        run : npm start &
+   
