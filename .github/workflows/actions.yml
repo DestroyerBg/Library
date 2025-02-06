@@ -32,12 +32,15 @@ jobs:
       
       - name: Fix vulnerabilities
         run: npm audit fix --force
-        
+
       - name: Start App
         run: npm server &
 
       - name: Start UI
         run : npm start &
+
+      - name: Wait for services to be ready
+        run: npx wait-on http://localhost:3000 http://localhost:8080  
 
       - name: Run tests
         run: npm test
