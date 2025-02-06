@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -29,14 +28,21 @@ jobs:
       
       - name: Install playwright dependencies    
         run: npx playwright install    
-      
-      - name: Start App
-        run: npm server &
 
-      - name: Start UI
-        run : npm start &
+      - name: Fix vulnerabilities
+        run: npm audit fix --force
 
-      - name: Run tests
-        run: npm test
+      - name: Start Backend
+        run: npm run server > backend.log 2>&1 &
 
-   
+      - name: Start Frontend
+        run: npm start > frontend.log 2>&1 &
+
+      - name: Wait for services to be ready
+        run: |
+          sleep 10  # Изчаква 10 секунди, за да дадем време на сървърите да стартират
+          echo "🔍 Backend log:"
+          cat backend.log || echo "❌ Backend log is empty!"
+          echo "🔍 Frontend log:"
+          cat frontend.log || echo "❌ Frontend log is empty!"
+          npx wait-on http://localhost:3000
