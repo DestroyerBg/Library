@@ -46,3 +46,6 @@ jobs:
           echo "🔍 Frontend log:"
           cat frontend.log || echo "❌ Frontend log is empty!"
           npx wait-on http://localhost:3000
+      
+      - name: Run tests
+        run: npm test
