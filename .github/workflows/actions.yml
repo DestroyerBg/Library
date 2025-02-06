@@ -30,12 +30,15 @@ jobs:
       - name: Install playwright dependencies    
         run: npx playwright install    
       
+      - name: Fix vulnerabilities
+        run: npm audit fix --force
+        
       - name: Start App
         run: npm server &
 
       - name: Start UI
         run : npm start &
-        
+
       - name: Run tests
         run: npm test
 
